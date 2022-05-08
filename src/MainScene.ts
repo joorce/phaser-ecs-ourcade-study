@@ -1,6 +1,7 @@
 import { addComponent, addEntity, createWorld, IWorld, System } from 'bitecs';
 import 'phaser';
 import { CPU } from './components/CPU';
+import { Input } from './components/Input';
 import { Player } from './components/Player';
 import { Position } from './components/Position';
 import { Rotation } from './components/Rotation';
@@ -44,6 +45,7 @@ export class MainScene extends Phaser.Scene {
     addComponent(this.world, Sprite, player);
     addComponent(this.world, Player, player);
     addComponent(this.world, Rotation, player);
+    addComponent(this.world, Input, player);
 
     Position.x[player] = 100;
     Position.y[player] = 100;
@@ -65,17 +67,21 @@ export class MainScene extends Phaser.Scene {
     for (let i = 0; i < 20; i++) {
       const enemyTank = addEntity(this.world);
       addComponent(this.world, Position, enemyTank);
-      Position.x[enemyTank] = Phaser.Math.Between(width * 0.25, width * 0.75);
-      Position.y[enemyTank] = Phaser.Math.Between(height * 0.25, height * 0.75);
       addComponent(this.world, Rotation, enemyTank);
       addComponent(this.world, Sprite, enemyTank);
       addComponent(this.world, Velocity, enemyTank);
-      Sprite.texture[enemyTank] = Phaser.Math.Between(1, 2);
       addComponent(this.world, CPU, enemyTank);
+      addComponent(this.world, Input, enemyTank);
+
+      Position.x[enemyTank] = Phaser.Math.Between(width * 0.25, width * 0.75);
+      Position.y[enemyTank] = Phaser.Math.Between(height * 0.25, height * 0.75);
+
+      Sprite.texture[enemyTank] = Phaser.Math.Between(1, 2);
+
       CPU.timeBetweenActions[enemyTank] = Phaser.Math.Between(20, 300);
     }
 
-    this.movementSystem = createMovementSystem();
+    this.movementSystem = createMovementSystem(5);
     this.playerSystem = createPlayerSystem(this.cursors);
     this.cpuSystem = createCPUSystem(this);
   }

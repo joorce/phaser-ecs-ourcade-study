@@ -23,7 +23,7 @@ const GameConfig: Phaser.Types.Core.GameConfig = {
     },
   },
   backgroundColor: '#300000',
-  render: { pixelArt: true, antialias: false },
+  render: { pixelArt: false, antialias: true },
   scale: {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH,
