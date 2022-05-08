@@ -7,8 +7,12 @@ export const createPlayerSystem = (
   cursors: Phaser.Types.Input.Keyboard.CursorKeys
 ) => {
   const query = defineQuery([Player, Velocity, Rotation]);
+
   return defineSystem((world) => {
+    console.log(query(world));
     const entities = query(world);
+    console.log(entities);
+
     for (const id of entities) {
       if (cursors.left.isDown) {
         Velocity.x[id] = -5;
